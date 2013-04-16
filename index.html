@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8" />
+
+        <title>Magento and WordPress in MyRingPop.com</title>
+
+        <meta name="description" content="Integrating Magento and WordPress for MyRingPop.com at Alexander Interactive" />
+        <meta name="author" content="Matt Holford" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <link rel="stylesheet" href="css/reveal.css" />
+        <link rel="stylesheet" href="css/theme/default.css" id="theme" />
+
+        <!-- For syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css" />
+
+        <!-- If the query includes 'print-pdf', use the PDF print sheet -->
+        <script>
+            document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print" />' );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+            <div class="slides">
+                <section>
+                    <section>
+                        <h1>Magento + WP: MyRingPop.com</h1>
+                        <img src="img/dont-get-fancy.png" alt="Don't get fancy. Don't do it.">
+                    </section>
+                    <section>
+                        <h1>Let's talk about</h1>
+                        <ol>
+                            <li>Architectural drivers</li>
+                            <li>Integration options</li>
+                            <li>Why we done did what we did</li>
+                            <li>Some of the nitty gritty</li>
+                            <li>Things to improve</li>
+                            <li>Question time<br /><br /></li>
+                        </ol>
+                        <p>
+                        	Thanks to 
+                        	<a rel="external" href="https://github.com/broderboy/">Tim Broder</a>, 
+                        	because I stole your presentation
+                        </p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Architectural drivers</h2>
+                        <ol>
+                            <li>Flexible CTDs</li>
+                            <li>Usable admin area</li>
+                            <li>Media management</li>
+                            <li>Ease of Magento integration</li>
+                            <li>Bypass hyper-fractured Magento theming</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>1. Flexible CTDs</h2>
+                        <p>Content types were not fully defined at project start <br />(nor should they be).</p>
+                        <p><a href="http://podsframework.org/">Pods Framework</a> helps.</p>
+                    </section>
+                    <section>
+                        <h2>2. Usable admin area</h2>
+                        <p>Target audience: Not CMS wizards.</p>
+                        <img src="img/computer-wizard.png" />
+                    </section>
+                    <section>
+                        <h2>3. Media management</h2>
+                        <p>Don't trust the Magento.</p>
+                    </section>
+                    <section>
+                        <h2>4. Ease of Magento integration</h2>
+                        <p>Keep it flexible: loose data coupling</p>
+                        <p>Minimize what Magento needs to know</p>
+                    </section>
+                    <section>
+                        <h2>5. Bypass hyper-fractured<br />Magento theming</h2>
+                        <p>One page, ten thousand templates</p>
+                        <p>Ten thousand templates, ten thousand blocks</p>
+                        <p>Ten thousand blocks, ten thousand contexts</p>
+                        <p>Simplify bender-fender handoff</p>
+                        <p>Goal: One page = one query = one template</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Integration options</h2>
+                        <ol>
+                            <li>FishPig</li>
+                            <li>Custom queries</li>
+                            <li>REST</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>1. FishPig</h2>
+                        <h3>Pros</h3>
+                        <ul>
+                            <li>Easy integration</li>
+                            <li>Popular extension<br /><br /></li>
+                        </ul>
+                        <h3>Cons</h3>
+                        <ul>
+                            <li>Tight integration into Magento</li>
+                            <li>More than one extension needed<br />for custom post types</li>
+                            <li>Requires Magento-style theming</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>2. Custom queries</h2>
+                        <h3>Pros</h3>
+                        <ul>
+                            <li>Total control</li>
+                            <li>Could make a nifty resource layer<br /><br /></li>
+                        </ul>
+                        <h3>Cons</h3>
+                        <ul>
+                            <li>Relies too much on Magento</li>
+                            <li>May still require <br />Magento-style theming</li>
+                            <li>Too much customization for<br />the project</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>3. REST</h2>
+                        <h3>Pros</h3>
+                        <ul>
+                            <li>Loose coupling of services</li>
+                            <li>Easy to debug</li>
+                            <li>Get to use <a 
+                                href="http://wordpress.org/extend/plugins/json-api/">WP JSON API</a><br /><br /></li>
+                        </ul>
+                        <h3>Cons</h3>
+                        <ul>
+                            <li>Performance implications</li>
+                            <li>Requires translation layer<br />in Magento</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Decision: REST</h2>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Why we done</h2>
+                        <h2>Did</h2>
+                        <h2>What we did</h2>
+                        <p>Topps_Content</p>
+                        <ol>
+                            <li>Magento: (Almost no) blocks</li>
+                            <li>Magento: Fat helpers</li>
+                            <li>Magento: Fat templates</li>
+                            <li>WP: No theming</li>
+                            <li>WP: All JSON</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h2>1. Magento: (Almost no) blocks</h2>
+                        <p>Blocks are great for reusability.</p>
+                        <p>Not reusing? Don't get stuck with blocks.</p>
+                        <p>Page context simplifies reference.</p>
+                    </section>
+                    <section>
+                        <h2>2. Magento: Fat helpers</h2>
+                        <p>Avoided fancy data resource layer.</p>
+                        <p>Helpers get data via REST.</p>
+                        <p>Helpers handle multilayered caching.</p>
+                        <p>Provide monolithic data object to presentation layer.</p>
+                    </section>
+                    <section>
+                        <h2>3. Magento: Fat templates</h2>
+                        <p>No more "How do I access X from this template?"</p>
+                        <p>Monolithic data object eases context, control.</p>
+                    </section>
+                    <section>
+                        <h2>4. WP: No theming</h2>
+                        <p>WP serves only data.</p>
+                        <p>All presentation is in Magento.</p>
+                    </section>
+                    <section>
+                        <h2>5. WP: All JSON</h2>
+                        <p>Extend JSON layer as needed.</p>
+                        <p>Cache JSON responses as needed.</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Some of the nitty gritty</h2>
+                    </section>
+                    <section>
+                        <a href="http://pyramidheadxxx.deviantart.com/art/Metalhead-63929261">
+                            <img src="img/metalhead.jpg" alt="Metal." />
+                        </a>
+                    </section>
+                    <section>
+                        <h2>A custom post type: Pods</h2>
+                        <a href="img/pods-article.png" rel="external">
+                            <img src="img/pods-article.png" alt="An Article type's custom fields" />
+                        </a>
+                    </section>
+                    <section>
+                        <h2>A custom post type: WP</h2>
+                        <a href="img/wp-article.png" rel="external">
+                            <img src="img/wp-article.png" alt="An Article type's edit view" />
+                        </a>
+                    </section>
+                    <section>
+                        <h2>A custom "parent": Pods</h2>
+                        <a href="img/pods-subchannel.png" rel="external">
+                            <img src="img/pods-subchannel.png" alt="A Subchannel type's custom fields" />
+                        </a>
+                    </section>
+                    <section>
+                        <h2>A custom "parent": WP</h2>
+                        <a href="img/wp-subchannel.png" rel="external">
+                            <img src="img/wp-subchannel.png" alt="A Subchannel type's edit view" />
+                        </a>
+                    </section>
+                    <section>
+                        <h2>Subchannel: JSON view</h2>
+                        <a rel="external" href="http://www.myringpop.com/wp/api/get_category_posts/?slug=bachelorette&post_type=subchannels&custom_fields=article,css_wrapper_id,curated_images,custom_css,gallery_promo,gallery_title,subchannel_order,wrapper_image&dev=1">
+                            Check it
+                        </a>
+                    </section>
+                    <section>
+                        <h2>What Magento needs to know</h2>
+                        <img src="img/magento-cats.png" alt="Magento categories" />
+                    </section>
+                    <section>
+                        <h2>Fat helper, pt. 1</h2>
+                        <p><a rel="external" href="https://gist.github.com/mshmsh5000/5383710">loadWorld()</a></p>
+                    </section>
+                    <section>
+                        <h2>Fat helper, pt. 2</h2>
+                        <p><a rel="external" href="https://gist.github.com/mshmsh5000/5383736">populateObjectWithCustomFields()</a></p>
+                    </section>
+                    <section>
+                        <h2>Fat helper, pt. 3</h2>
+                        <p><a rel="external" href="https://gist.github.com/mshmsh5000/5392736">getCustomFieldsForPostType()</a></p>
+                    </section>
+                    <section>
+                        <h2>Monolithic World object</h2>
+                        <p><a rel="external" href="https://gist.github.com/mshmsh5000/5383756">Bridal-Bachelorette</a></p>
+                        <p>125 KB</p>
+                    </section>
+                    <section>
+                        <h2>Fun with templating</h2>
+                        <p><a rel="external" href="https://gist.github.com/mshmsh5000/5383773">world.phtml</a></p>
+                    </section>
+                    <section>
+                    	<h2>CMS pages: In WP</h2>
+                    	<img src="img/wp-page.png" alt="A simple WP page" />
+                    </section>
+                    <section>
+                    	<h2>CMS pages: In Magento</h2>
+                    	<img src="img/magento-page.png" alt="Magento CMS reference" />
+                    </section>
+                    <section>
+                    	<h2>CMS pages: Observer</h2>
+                    	<p><a rel="external" href="https://gist.github.com/mshmsh5000/5383803">Observer</a></p>
+                    </section>
+                </section>
+                <section>
+                	<h2>Things to improve</h2>
+                	<ul>
+                		<li>Simplicity of presentation object</li>
+                		<li>Portability to other projects</li>
+                		<li>Future-proofing for WP/JSON</li>
+                		<li>More helpers</li>
+                		<li>More: Ask Tom and Adam</li>
+                	</ul>
+                </section>
+                <section>
+                    <h2>Question time</h2>
+                    <a rel="external" href="http://www.guardian.co.uk/politics/2010/nov/25/ed-miliband-baby-gift-simon-hoggart">
+                        <img src="img/question-time.jpg" alt="Question Time" />
+                    </a>
+                </section>
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                    { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
